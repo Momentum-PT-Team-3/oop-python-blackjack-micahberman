@@ -14,7 +14,6 @@ class Card:
     def __str__(self):
         return f'{self.rank} of {self.suit} {self.score}'
 
-
 class Deck:
     def __init__(self, suits, scores):
         self.cards = []
@@ -27,17 +26,12 @@ class Deck:
     def show_cards(self): 
         for card in self.cards:
             print(card)
-        
-        
 
-def deal_card(deck):               
-    drawn_card = random.choice(deck)
-    print(drawn_card)
-
-    deck.remove(drawn_card)
-
-    
-
+    def draw_card(self):               
+        drawn_card = random.choice(self.cards)
+        self.cards.remove(drawn_card)
+        return drawn_card
+   
 class Player:
     def __init__(self):
         self.hand = []
@@ -68,16 +62,24 @@ class Game:
         self.dealer = Dealer()
         self.gamedeck = Deck(suits, scores)
 
-    def deal_card(deck, card_player):               
-        drawn_card = random.choice(deck)
-        deck.remove(drawn_card)
-        card_player.hand.append(drawn_card)
+    def deal_cards(self):
+        for i in range(2):
+            self.dealer.hand.append(self.gamedeck.draw_card())
+            self.player.hand.append(self.gamedeck.draw_card())
+        self.dealer.show_hand()
+        self.player.show_hand()
+
+
+         
+
+            
 
 
 
 
 
-gamedeck = Deck(SUITS, SCORES)
+game = Game(SUITS, SCORES)
+game.deal_cards()
 # gamedeck.show_cards()
 
 
