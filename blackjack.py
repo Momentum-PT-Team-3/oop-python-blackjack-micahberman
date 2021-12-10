@@ -70,51 +70,9 @@ class Game:
         self.player.show_hand()
 
 
-         
-
-            
-
-
-
-
-
 game = Game(SUITS, SCORES)
 game.deal_cards()
 # gamedeck.show_cards()
-
-
-# for i in range(2):
-#     deal_card(deck, dealer)
-#     deal_card(deck, player)
-
-# dealer.show_hand()
-# player.show_hand()
-# print(len(deck))
-
-
-
-    #starts game by calling GameRound
-    #keeps tabs of scores
-    #game can end if player busts, or if dealer busts or hits 18
-    #declares winner
-
-
-
-
-            
-
-# class Dealer:
-#     def __init__(self):
-#         self.name = 
-
-# class Game:
-#     def __init__(self):
-#         self.endGame = False
-#         #self.player = Player("Player")
-#         #self.dealer = Player("Dealer")
-#     def start(self):
-#         while not self.endGame:
-#             #GameRound(self.player, self.dealer)
 
 
 
