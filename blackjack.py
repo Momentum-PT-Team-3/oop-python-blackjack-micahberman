@@ -10,9 +10,12 @@ class Card:
         self.rank = rank
         self.score = score
         
-
     def __str__(self):
         return f'{self.rank} of {self.suit} {self.score}'
+
+    def get_score(self):
+        return f'{self.score}'
+
 
 class Deck:
     def __init__(self, suits, scores):
@@ -22,7 +25,9 @@ class Deck:
             for value in scores.keys():
                 card = Card(suit, value, scores.get(value))
                 self.cards.append(card)
-    
+                # cardscore = card.score
+                # print (cardscore)
+
     def show_cards(self): 
         for card in self.cards:
             print(card)
@@ -31,6 +36,11 @@ class Deck:
         drawn_card = random.choice(self.cards)
         self.cards.remove(drawn_card)
         return drawn_card
+
+    def get_score(self):
+        card_score = Card.get_score()
+        return card_score
+
    
 class Player:
     def __init__(self):
@@ -43,7 +53,7 @@ class Player:
         print("Player")
         for card in self.hand:
             print(card)
-
+           
 class Dealer:
     def __init__(self):
         self.hand = []
@@ -69,10 +79,34 @@ class Game:
         self.dealer.show_hand()
         self.player.show_hand()
 
+    def deal_dealer(self, total):
+        while total <= 17:
+            self.hit(self.dealer)
+        else:
+            self.dealer.show_hand()
+
+    def hit(self, person):
+        
+        person.hand.append(self.gamedeck.draw_card())
+        person.show_hand()
+
+    def hit_or_stay(self):
+        choice = input("Would you like to hit? y/n")
+        while choice == 'y':
+            self.hit(self.player)
+            choice = input('Would you like to hit again? y/n')
+        else:
+            self.player.show_hand()
+
+
 
 game = Game(SUITS, SCORES)
 game.deal_cards()
-# gamedeck.show_cards()
+game.hit_or_stay()
+
+
+
+
 
 
 
