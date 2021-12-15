@@ -105,34 +105,42 @@ class Game:
         person.show_hand()
 
     def calculate_totals(self, dealer, player):
-        self.dealer_hand_values = []
-        self.player_hand_values = []
+        dealer_hand_values = []
+        player_hand_values = []
         for card in dealer.hand:
-            self.dealer_hand_values.append(card.value)
-        self.dealer_score = sum(self.dealer_hand_values)
+            dealer_hand_values.append(card.value)
+        self.dealer_score = sum(dealer_hand_values)
         for card in player.hand:
-            self.player_hand_values.append(card.value)
-        self.player_score = sum(self.player_hand_values)
+            player_hand_values.append(card.value)
+        self.player_score = sum(player_hand_values)
     
     def deal_dealer(self):
         while self.dealer_score < 17:
             self.hit(self.dealer)
             self.calculate_totals(self.dealer, self.player)
             print(self.dealer_score)
+            if self.dealer_score > 21:
+                print('Bust!')
         else:
             print('Hit 17, stopping.')
             print(self.dealer_score)
 
     def hit_or_stay(self):
         print(f'Your score is currently {self.player_score}')
-        choice = input("Would you like to hit? y/n")
-        while choice == 'y':
+        while self.player_score < 21:
+            choice = input('Would you like to hit? y/n')
+            if choice == 'n':
+                print(f'Your score is now {self.player_score}')
+                break
             self.hit(self.player)
             self.calculate_totals(self.dealer, self.player)
             print(f'Your score is now {self.player_score}')
-            choice = input('Would you like to hit again? y/n')
         else:
-            self.player.show_hand()
+            if self.player_score == 21:
+                print('You got Blackjack! Here\'s a million dollars.')
+            else:
+                print(f'Your score is now {self.player_score}. You busted!')
+                self.player.show_hand()
 
 
 
