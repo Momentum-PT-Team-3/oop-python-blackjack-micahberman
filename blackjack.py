@@ -134,8 +134,17 @@ class GameRound:
                 else:
                     print('Thanks for playing!')
                     break
+            if self.dealer_score == 21:
+                print('The dealer gets blackjack! You lose.')
+                dbj_replay_choice = input('Would you like to play again? y/n')
+                if dbj_replay_choice == 'y':
+                    self.replay_game()
+                else:
+                    print('Thanks for playing!')
+                    exit()
         else:
             print(f'The dealer stays with a {self.dealer_score}.')
+
             
 
     def hit_or_stay(self):
@@ -146,9 +155,21 @@ class GameRound:
                 print(f'Your score is now {self.player_score}')
                 if self.player_score > self.dealer_score:
                     print(f'Your score of {self.player_score} is higher than the dealer\'s score of {self.dealer_score}. You win!')
+                    pws_replay_choice = input('Would you like to play again? y/n')
+                    if pws_replay_choice == 'y':
+                        self.replay_game()
+                    else:
+                        print('Thanks for playing!')
+                        exit()
                 else:
                     print(f'Your score of {self.player_score} is lower than the dealer\'s score of {self.dealer_score}. You lose.')
-                
+                    pds_replay_choice = input('Would you like to play again? y/n')
+                    if pds_replay_choice == 'y':
+                        self.replay_game()
+                    else:
+                        print('Thanks for playing!')
+                        exit()
+
             self.hit(self.player)
             self.calculate_totals(self.dealer, self.player)
             print(f'Your score is now {self.player_score}')
@@ -160,6 +181,7 @@ class GameRound:
                     self.replay_game()
                 else: 
                     print('Thanks for playing!')
+                    exit()
             else:
                 print(f'Your score is now {self.player_score}. You busted!')
                 pb_replay_choice = input('Would you like to play again? y/n')
@@ -167,6 +189,7 @@ class GameRound:
                     self.replay_game()
                 else:
                     print('Thanks for playing!')
+                    exit()
 
 
         
