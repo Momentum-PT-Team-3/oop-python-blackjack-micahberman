@@ -43,8 +43,6 @@ class Deck:
             for value in scores.keys():
                 card = Card(suit, value)
                 self.cards.append(card)
-                # cardscore = card.score
-                # print (cardscore)
 
     def show_cards(self): 
         for card in self.cards:
@@ -84,13 +82,22 @@ class Dealer:
         for card in self.hand:
             print(card)
 
-class Game:
+class GameRound:
     def __init__(self, suits, scores):
         self.player = Player()
         self.dealer = Dealer()
         self.gamedeck = Deck(suits, scores)
         self.player_score = 0
         self.dealer_score = 0
+        self.winner_player = False
+        self.winner_dealer = False
+
+    def replay_game(self):
+        game = GameRound(SUITS, SCORES)
+        game.deal_cards()
+        game.deal_dealer()
+        game.hit_or_stay()
+
 
     def deal_cards(self):
         for i in range(2):
@@ -118,12 +125,18 @@ class Game:
         while self.dealer_score < 17:
             self.hit(self.dealer)
             self.calculate_totals(self.dealer, self.player)
-            print(self.dealer_score)
             if self.dealer_score > 21:
-                print('Bust!')
+                print('The dealer busts! Player wins.')
+                self.winner_player = True
+                replay_choice = input('Would you like to play again? y/n')
+                if replay_choice == 'y':
+                    self.replay_game()
+                else:
+                    print('Thanks for playing!')
+                    break
         else:
-            print('Hit 17, stopping.')
-            print(self.dealer_score)
+            print(f'The dealer stays with a {self.dealer_score}.')
+            
 
     def hit_or_stay(self):
         print(f'Your score is currently {self.player_score}')
@@ -131,20 +144,35 @@ class Game:
             choice = input('Would you like to hit? y/n')
             if choice == 'n':
                 print(f'Your score is now {self.player_score}')
-                break
+                if self.player_score > self.dealer_score:
+                    print(f'Your score of {self.player_score} is higher than the dealer\'s score of {self.dealer_score}. You win!')
+                else:
+                    print(f'Your score of {self.player_score} is lower than the dealer\'s score of {self.dealer_score}. You lose.')
+                
             self.hit(self.player)
             self.calculate_totals(self.dealer, self.player)
             print(f'Your score is now {self.player_score}')
         else:
             if self.player_score == 21:
                 print('You got Blackjack! Here\'s a million dollars.')
+                pw_replay_choice = input('Would you like to play again? y/n')
+                if pw_replay_choice == 'y':
+                    self.replay_game()
+                else: 
+                    print('Thanks for playing!')
             else:
                 print(f'Your score is now {self.player_score}. You busted!')
-                self.player.show_hand()
+                pb_replay_choice = input('Would you like to play again? y/n')
+                if pb_replay_choice == 'y':
+                    self.replay_game()
+                else:
+                    print('Thanks for playing!')
 
 
+        
+                
 
-game = Game(SUITS, SCORES)
+game = GameRound(SUITS, SCORES)
 game.deal_cards()
 game.deal_dealer()
 game.hit_or_stay()
